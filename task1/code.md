@@ -13,9 +13,12 @@ Develop a Python program to shortlist scholarship candidates based on minimum ac
 10. Display selected and rejected students.
 11. Stop the program.
 3. Flowchart (Mermaid Code)
-4. flowchart TD
-    A([Start]) --> B[/Enter number of students and scholarship quota/]
-    B --> C[/Enter student name, marks, attendance and income/]
+4. ```mermaid
+5. flowchart TD
+    
+flowchart TD
+    A([Start]) --> B[/Enter number of students and quota/]
+    B --> C[/Enter student details/]
     C --> D{Marks >= 75?}
     D -- No --> R[Reject: Low Marks]
     D -- Yes --> E{Attendance >= 75?}
@@ -32,10 +35,7 @@ Develop a Python program to shortlist scholarship candidates based on minimum ac
     I --> J[Select students within quota]
     J --> K[/Display selected and rejected students/]
     K --> L([Stop])
-
-
-
-
+```
 
 
 5. Python Source Code
