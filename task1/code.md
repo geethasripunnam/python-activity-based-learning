@@ -13,18 +13,37 @@ Develop a Python program to shortlist scholarship candidates based on minimum ac
 10. Display selected and rejected students.
 11. Stop the program.
 3. Flowchart (Mermaid Code)
+4. flowchart TD
+    A([Start]) --> B[/Enter number of students and scholarship quota/]
+    B --> C[/Enter student name, marks, attendance and income/]
+    C --> D{Marks >= 75?}
+    D -- No --> R[Reject: Low Marks]
+    D -- Yes --> E{Attendance >= 75?}
+    E -- No --> S[Reject: Low Attendance]
+    E -- Yes --> F{Income <= 200000?}
+    F -- No --> T[Reject: High Income]
+    F -- Yes --> G[Add student to eligible list]
+    G --> H{More students?}
+    R --> H
+    S --> H
+    T --> H
+    H -- Yes --> C
+    H -- No --> I[Sort eligible students by marks]
+    I --> J[Select students within quota]
+    J --> K[/Display selected and rejected students/]
+    K --> L([Stop])
 
 
 
 
 
 
-4. Python Source Code
+5. Python Source Code
 students = []eligible = []rejected = []n = int(input("Enter number of students: "))quota = int(input("Enter scholarship quota: "))for i in range(n):    print("\nEnter details of student", i + 1)    name = input("Enter name: ")    marks = float(input("Enter marks: "))    attendance = float(input("Enter attendance: "))    income = float(input("Enter family income: "))    reasons = []    if marks < 75:        reasons.append("Low Marks")    if attendance < 75:        reasons.append("Low Attendance")    if income > 200000:        reasons.append("High Income")    if len(reasons) == 0:        eligible.append((name, marks, attendance, income))    else:        rejected.append((name, reasons))eligible.sort(key=lambda x: x[1], reverse=True)selected = eligible[:quota]waiting = eligible[quota:]print("\n--- SELECTED STUDENTS ---")for student in selected:    print(student)print("\n--- WAITING LIST ---")for student in waiting:    print(student)print("\n--- REJECTED STUDENTS ---")for student, reasons in rejected:    print(student, "-", ", ".join(reasons))
 
 
 
-5. Sample Input
+6. Sample Input
 Enter number of students: 4
 Enter scholarship quota: 2
 
