@@ -1,4 +1,4 @@
-# 72. Smart Hostel Resource Monitoring
+
 
 ## 1. Problem Statement
 
