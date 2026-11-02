@@ -1,4 +1,4 @@
-# 74. Campus Festival Registration and Financial Audit
+
 
 ## 1. Problem Statement
 
