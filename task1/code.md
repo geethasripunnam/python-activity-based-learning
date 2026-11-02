@@ -1,82 +1,97 @@
-1. Problem Statement
-Develop a Python program to shortlist scholarship candidates based on minimum academic marks, attendance percentage, family income and ranking rules. Select eligible students according to their merit and a fixed scholarship quota. Display the selected candidates and rejected candidates with reasons.
-2. Algorithm
+#  Integrated University Fee and Eligibility Audit
+
+## 1. Problem Statement
+
+To develop a Python program that combines student fee payments, attendance percentage, internal marks, and examination eligibility records. The program identifies students who have outstanding conditions and generates a reason-wise report showing whether each student is eligible for examinations.
+
+## 2. Algorithm
+
 1. Start the program.
-2. Read the number of students and scholarship quota.
-3. Enter each student's name, marks, attendance and family income.
-4. Check academic eligibility (minimum 75% marks).
-5. Check attendance eligibility (minimum 75%).
-6. Check family income (maximum ₹2,00,000).
-7. Add eligible students to a list.
-8. Sort eligible students according to marks in descending order.
-9. Select students according to the scholarship quota.
-10. Display selected and rejected students.
+2. Enter the number of students.
+3. Read each student's name, fee status, attendance percentage, internal marks, and eligibility record.
+4. Check the fee payment status.
+5. Check whether attendance is at least 75%.
+6. Check whether internal marks are at least 40.
+7. Check the examination eligibility record.
+8. Identify students with outstanding conditions.
+9. Display the reasons for ineligibility.
+10. Display the final eligibility report.
 11. Stop the program.
-3. Flowchart (Mermaid Code)
- ```mermaid  
+
+## 3. Flowchart (Mermaid)
+```mermaid
 flowchart TD
-    A([Start]) --> B[/Enter number of students and quota/]
+    A([Start]) --> B[/Enter number of students/]
     B --> C[/Enter student details/]
-    C --> D{Marks >= 75?}
-    D -- No --> R[Reject: Low Marks]
-    D -- Yes --> E{Attendance >= 75?}
-    E -- No --> S[Reject: Low Attendance]
-    E -- Yes --> F{Income <= 200000?}
-    F -- No --> T[Reject: High Income]
-    F -- Yes --> G[Add student to eligible list]
-    G --> H{More students?}
-    R --> H
-    S --> H
-    T --> H
-    H -- Yes --> C
-    H -- No --> I[Sort eligible students by marks]
-    I --> J[Select students within quota]
-    J --> K[/Display selected and rejected students/]
-    K --> L([Stop])
+    C --> D{Fee Paid?}
+    D -- No --> E[Add Fee Due Reason]
+    D -- Yes --> F{Attendance >= 75?}
+    E --> F
+    F -- No --> G[Add Attendance Shortage Reason]
+    F -- Yes --> H{Internal Marks >= 40?}
+    G --> H
+    H -- No --> I[Add Low Marks Reason]
+    H -- Yes --> J{Eligibility Record Valid?}
+    I --> J
+    J -- No --> K[Add Eligibility Record Issue]
+    J -- Yes --> L[Continue Audit]
+    K --> L
+    L --> M{Any Outstanding Conditions?}
+    M -- Yes --> N[Display Not Eligible and Reasons]
+    M -- No --> O[Display Eligible]
+    N --> P{More Students?}
+    O --> P
+    P -- Yes --> C
+    P -- No --> Q[Display Final Audit Report]
+    Q --> R([Stop])
+```
+## 5. Sample Input
+
+```
+Enter number of students: 3
+
+Student 1
+Enter student name: Ravi
+Fee paid (yes/no): yes
+Enter attendance: 85
+Enter internal marks: 75
+Eligibility record valid (yes/no): yes
+
+Student 2
+Enter student name: Priya
+Fee paid (yes/no): no
+Enter attendance: 65
+Enter internal marks: 30
+Eligibility record valid (yes/no): yes
+
+Student 3
+Enter student name: Kumar
+Fee paid (yes/no): yes
+Enter attendance: 90
+Enter internal marks: 80
+Eligibility record valid (yes/no): no
+```
+
+## 6. Sample Output
+
+```
+Student Name: Ravi
+Status: Eligible for Examination
+
+Student Name: Priya
+Status: Not Eligible
+Outstanding Conditions:
+- Fee Not Paid
+- Low Attendance
+- Low Internal Marks
+
+Student Name: Kumar
+Status: Not Eligible
+Outstanding Conditions:
+- Eligibility Record Missing
+
+University Fee and Eligibility Audit Completed
 ```
 
 
-5. Python Source Code
-students = []eligible = []rejected = []n = int(input("Enter number of students: "))quota = int(input("Enter scholarship quota: "))for i in range(n):    print("\nEnter details of student", i + 1)    name = input("Enter name: ")    marks = float(input("Enter marks: "))    attendance = float(input("Enter attendance: "))    income = float(input("Enter family income: "))    reasons = []    if marks < 75:        reasons.append("Low Marks")    if attendance < 75:        reasons.append("Low Attendance")    if income > 200000:        reasons.append("High Income")    if len(reasons) == 0:        eligible.append((name, marks, attendance, income))    else:        rejected.append((name, reasons))eligible.sort(key=lambda x: x[1], reverse=True)selected = eligible[:quota]waiting = eligible[quota:]print("\n--- SELECTED STUDENTS ---")for student in selected:    print(student)print("\n--- WAITING LIST ---")for student in waiting:    print(student)print("\n--- REJECTED STUDENTS ---")for student, reasons in rejected:    print(student, "-", ", ".join(reasons))
-
-
-
-6. Sample Input
-Enter number of students: 4
-Enter scholarship quota: 2
-
-Enter details of student 1
-Enter name: Ravi
-Enter marks: 85
-Enter attendance: 90
-Enter family income: 150000
-
-Enter details of student 2
-Enter name: Sita
-Enter marks: 70
-Enter attendance: 80
-Enter family income: 100000
-
-Enter details of student 3
-Enter name: Kumar
-Enter marks: 92
-Enter attendance: 95
-Enter family income: 180000
-
-Enter details of student 4
-Enter name: Priya
-Enter marks: 80
-Enter attendance: 60
-Enter family income: 100000
-
-
-6. Sample Output
---- SELECTED STUDENTS ---
-('Kumar', 92.0, 95.0, 180000.0)
-('Ravi', 85.0, 90.0, 150000.0)
-
---- WAITING LIST ---
-
---- REJECTED STUDENTS ---
-Sita - Low Marks
-Priya - Low Attendance
+The Python program successfully checks student fee payments, attendance, internal marks, and eligibility records. It identifies outstanding conditions and generates a reason-wise examination eligibility report.
