@@ -1,4 +1,4 @@
-#  Multi-Stage Scholarship Shortlisting
+
 
 ## 1. Problem Statement
 
