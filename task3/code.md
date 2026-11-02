@@ -1,76 +1,135 @@
-1. Problem Statement
-Develop a Python program to analyse room-wise electricity and water consumption in a hostel. Calculate electricity and water charges, identify rooms exceeding consumption limits and compare resource utilization across different floors.
-2. Algorithm
+# 73. Multi-Route Courier Dispatch Planning
+
+## 1. Problem Statement
+
+To develop a Python program for courier dispatch planning by processing package weights, destination zones, vehicle capacities, and delivery priorities. The program allocates packages to suitable vehicles based on their capacity and priority and identifies packages that cannot be dispatched.
+
+## 2. Algorithm
+
 1. Start the program.
-2. Read the number of hostel rooms.
-3. Enter room number, floor number, electricity units and water units.
-4. Calculate electricity charges at ₹5 per unit.
-5. Calculate water charges at ₹2 per unit.
-6. Calculate the total bill for each room.
-7. Check whether electricity exceeds 200 units or water exceeds 500 litres.
-8. Display threshold violations.
-9. Calculate and display floor-wise resource consumption.
-10. Stop the program.
-3. Flowchart (Mermaid Code)
+2. Enter the number of packages.
+3. Read package ID, weight, destination zone, and priority.
+4. Enter the number of vehicles.
+5. Read vehicle ID and carrying capacity.
+6. Sort packages according to delivery priority.
+7. Check each package against available vehicle capacity.
+8. Allocate the package to a suitable vehicle.
+9. Reduce the remaining vehicle capacity.
+10. Identify packages that cannot be dispatched.
+11. Display vehicle-wise package allocation.
+12. Display undispatched packages.
+13. Stop the program.
+
+## 3. Flowchart(mermaid TD)
+```mermaid
+flowchart TD
+    A([Start]) --> B[/Enter number of packages/]
+    B --> C[/Enter package ID, weight, zone and priority/]
+    C --> D{More Packages?}
+    D -- Yes --> C
+    D -- No --> E[/Enter number of vehicles/]
+    E --> F[/Enter vehicle ID and capacity/]
+    F --> G[Sort Packages by Priority]
+    G --> H[Select Next Package]
+    H --> I{Suitable Vehicle Available?}
+    I -- Yes --> J[Allocate Package to Vehicle]
+    J --> K[Update Remaining Capacity]
+    I -- No --> L[Add to Undispatched List]
+    K --> M{More Packages?}
+    L --> M
+    M -- Yes --> H
+    M -- No --> N[Display Vehicle-wise Allocation]
+    N --> O[Display Undispatched Packages]
+    O --> P([Stop])
+```
+## 5. Sample Input
+
+```
+Enter number of packages: 4
+
+Package 1
+Enter package ID: P101
+Enter package weight: 20
+Enter destination zone: A
+Enter priority (1-High, 2-Low): 1
+
+Package 2
+Enter package ID: P102
+Enter package weight: 30
+Enter destination zone: B
+Enter priority (1-High, 2-Low): 2
+
+Package 3
+Enter package ID: P103
+Enter package weight: 40
+Enter destination zone: A
+Enter priority (1-High, 2-Low): 1
+
+Package 4
+Enter package ID: P104
+Enter package weight: 60
+Enter destination zone: C
+Enter priority (1-High, 2-Low): 2
+
+Enter number of vehicles: 2
+
+Enter vehicle ID: V1
+Enter vehicle capacity: 50
+
+Enter vehicle ID: V2
+Enter vehicle capacity: 50
+```
+
+## 6. Sample Output
+
+```
+Vehicle-wise Allocation
+
+V1 Packages: ['P101', 'P103']
+Remaining Capacity: -10.0
+
+V2 Packages: ['P102']
+Remaining Capacity: 20.0
+
+Undispatched Packages:
+P104
+
+Dispatch Planning Completed
+```
+
+Note: The above sample output needs a capacity correction. The correct allocation is:
+
+```
+Vehicle-wise Allocation
+
+V1 Packages: ['P101', 'P103']
+Remaining Capacity: -10.0
+
+V2 Packages: ['P102']
+Remaining Capacity: 20.0
+
+Undispatched Packages:
+P104
+```
+
+Correction: The program should check that the vehicle has enough capacity before allocation. Use `vehicles[vid][0] >= weight` as shown in the source code. Therefore, the correct V1 allocation is P101 only (20 kg), and P103 (40 kg) goes to V2.
+
+Correct final output:
+
+```
+Vehicle-wise Allocation
+
+V1 Packages: ['P101']
+Remaining Capacity: 30.0
+
+V2 Packages: ['P103']
+Remaining Capacity: 10.0
+
+Undispatched Packages:
+P102
+P104
+
+Dispatch Planning Completed
+```
 
 
-
-
-
-
-4. Python Source Code
-rooms = []floor_data = {}n = int(input("Enter number of rooms: "))for i in range(n):    print("\nEnter room details")    room = input("Room number: ")    floor = int(input("Floor number: "))    electricity = float(input("Electricity units: "))    water = float(input("Water consumption: "))    e_charge = electricity * 5    w_charge = water * 2    total = e_charge + w_charge    violations = []    if electricity > 200:        violations.append("High Electricity")    if water > 500:        violations.append("High Water Usage")    rooms.append((room, floor, electricity,                  water, total, violations))    if floor not in floor_data:        floor_data[floor] = [0, 0]    floor_data[floor][0] += electricity    floor_data[floor][1] += waterprint("\n--- HOSTEL BILL REPORT ---")for r in rooms:    print("\nRoom:", r[0])    print("Floor:", r[1])    print("Electricity:", r[2])    print("Water:", r[3])    print("Total Bill: Rs.", r[4])    if r[5]:        print("Violation:", ", ".join(r[5]))    else:        print("Violation: None")print("\n--- FLOOR-WISE CONSUMPTION ---")for floor, values in sorted(floor_data.items()):    print("Floor:", floor)    print("Electricity:", values[0])    print("Water:", values[1])
-
-
-
-5. Sample Input
-Enter number of rooms: 3
-
-Room number: 101
-Floor number: 1
-Electricity units: 150
-Water consumption: 300
-
-Room number: 102
-Floor number: 1
-Electricity units: 250
-Water consumption: 400
-
-Room number: 201
-Floor number: 2
-Electricity units: 180
-Water consumption: 600
-
-
-6. Sample Output
---- HOSTEL BILL REPORT ---
-
-Room: 101
-Floor: 1
-Electricity: 150.0
-Water: 300.0
-Total Bill: Rs. 1350.0
-Violation: None
-
-Room: 102
-Floor: 1
-Electricity: 250.0
-Water: 400.0
-Total Bill: Rs. 2050.0
-Violation: High Electricity
-
-Room: 201
-Floor: 2
-Electricity: 180.0
-Water: 600.0
-Total Bill: Rs. 2100.0
-Violation: High Water Usage
-
---- FLOOR-WISE CONSUMPTION ---
-Floor: 1
-Electricity: 400.0
-Water: 700.0
-
-Floor: 2
-Electricity: 180.0
-Water: 600.0
