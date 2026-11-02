@@ -1,21 +1,44 @@
- Python Source Code
-students = []n = int(input("Enter number of students: "))for i in range(n):   
-  print("\nEnter details of student", i + 1)   
-  name = input("Enter student name: ")   
-  total_fee = float(input("Enter total fee: "))   
-  paid_fee = float(input("Enter paid fee: "))   
-  attendance = float(input("Enter attendance percentage: "))   
-  marks = float(input("Enter internal marks: "))   
-  pending_fee = total_fee - paid_fee    reasons = []  
-  if pending_fee > 0:       
-    reasons.append("Fee Pending")   
-    if attendance < 75:      
-      reasons.append("Low Attendance")   
-      if marks < 40:       
-        reasons.append("Low Internal Marks")   
-        if reasons:      
-          status = "Not Eligible"   
-        else:       
-          status = "Eligible"   
-          students.append((name, pending_fee, status, reasons))
-          print("\n--- UNIVERSITY ELIGIBILITY AUDIT REPORT ---")for student in students:
+rooms = []
+floors = {}
+
+n = int(input("Enter number of rooms: "))
+
+for i in range(n):
+    print("\nRoom", i + 1)
+
+    room = input("Enter room number: ")
+    floor = int(input("Enter floor number: "))
+    electricity = float(input("Electricity units: "))
+    water = float(input("Water consumption in litres: "))
+
+    e_charge = electricity * 8
+    w_charge = water * 5
+    total = e_charge + w_charge
+
+    print("Total Bill: Rs.", total)
+
+    if electricity > 200:
+        print("Electricity Threshold Violated")
+
+    if water > 500:
+        print("Water Threshold Violated")
+
+    if floor not in floors:
+        floors[floor] = [0, 0]
+
+    floors[floor][0] += electricity
+    floors[floor][1] += water
+
+    rooms.append(room)
+
+print("\nFloor-wise Resource Utilization")
+
+for floor, usage in floors.items():
+    print("Floor:", floor)
+    print("Electricity:", usage[0], "units")
+    print("Water:", usage[1], "litres")
+
+highest = max(floors, key=lambda f: floors[f][0])
+print("\nHighest Electricity Usage Floor:", highest)
+
+print("Monitoring Completed")
