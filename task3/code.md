@@ -1,4 +1,4 @@
-# 73. Multi-Route Courier Dispatch Planning
+
 
 ## 1. Problem Statement
 
