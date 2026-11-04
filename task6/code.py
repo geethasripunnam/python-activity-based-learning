@@ -1,60 +1,50 @@
-records = []
-valid_records = []
-errors = []
-ids = set()
+print("SMART ELECTRICITY BILLING SYSTEM")
 
-n = int(input("Enter number of students: "))
+n = int(input("Enter number of apartments: "))
+apartments = []
 
 for i in range(n):
-    print("\nStudent", i + 1)
+    print("\nApartment", i + 1)
+    name = input("Enter apartment name: ")
+    units = int(input("Enter electricity units: "))
 
-    sid = input("Student ID: ")
-    name = input("Student Name: ")
-    marks = input("Marks: ")
-    attendance = input("Attendance: ")
-    course = input("Course: ")
-
-    record = (sid, name, marks, attendance, course)
-    records.append(record)
-
-    reasons = []
-
-    if sid in ids:
-        reasons.append("Duplicate ID")
+    if units <= 100:
+        charge = units * 2
+    elif units <= 200:
+        charge = 100 * 2 + (units - 100) * 3
     else:
-        ids.add(sid)
+        charge = 100 * 2 + 100 * 3 + (units - 200) * 5
 
-    if not all([sid, name, marks, attendance, course]):
-        reasons.append("Missing Value")
+    fixed = 50
+    total = charge + fixed
 
-    try:
-        m = float(marks)
-        a = float(attendance)
-
-        if m < 0 or m > 100:
-            reasons.append("Invalid Marks")
-
-        if a < 0 or a > 100:
-            reasons.append("Invalid Attendance")
-
-    except ValueError:
-        reasons.append("Invalid Numeric Data")
-
-    if reasons:
-        errors.append((sid, reasons))
+    if units < 100:
+        rebate = total * 0.10
     else:
-        valid_records.append(record)
+        rebate = 0
 
-print("\n--- VALID STUDENT RECORDS ---")
+    bill = total - rebate
 
-for r in valid_records:
-    print(r)
+    expected = float(input("Enter previous calculated bill: "))
 
-print("\n--- INCONSISTENT RECORDS ---")
+    if abs(expected - bill) > 0.01:
+        status = "Discrepancy Found"
+    else:
+        status = "No Discrepancy"
 
-for sid, reason in errors:
-    print(sid, ":", ", ".join(reason))
+    apartments.append([name, units, bill, status])
 
-print("\nTotal Records:", len(records))
-print("Valid Records:", len(valid_records))
-print("Invalid Records:", len(errors))
+print("\n--- ELECTRICITY BILL REPORT ---")
+
+for apt in apartments:
+    print("\nApartment:", apt[0])
+    print("Units Consumed:", apt[1])
+    print("Final Bill: Rs.", round(apt[2], 2))
+    print("Billing Status:", apt[3])
+
+apartments.sort(key=lambda x: x[1], reverse=True)
+
+print("\n--- CONSUMPTION RANKING ---")
+
+for i, apt in enumerate(apartments, 1):
+    print(i, apt[0], "-", apt[1], "units")
