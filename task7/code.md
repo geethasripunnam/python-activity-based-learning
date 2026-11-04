@@ -1,53 +1,86 @@
-1. Problem Statement
-Develop a Python program to process student marks across multiple subjects. Apply moderation rules by adding grace marks to students according to specified conditions. Ensure that the moderated marks do not exceed the maximum marks and compare original and moderated results.
-2. Algorithm
+
+
+Problem Statement:
+
+Develop a Python program to analyse hospital resources across multiple wards using nested lists. The program should process bed occupancy, available staff, and medical equipment details. Identify resource shortages, check ward capacity, and prioritize wards based on resource availability and patient requirements.
+
+## 1. Algorithm
+
 1. Start the program.
-2. Read the number of students and subjects.
-3. Enter student name and subject marks.
-4. Calculate the original total marks.
-5. Check whether each subject mark is below the passing mark.
-6. If a student is short by up to 5 marks, add grace marks.
-7. Ensure moderated marks do not exceed 100.
-8. Calculate moderated total marks.
-9. Compare original and moderated results.
-10. Display the final result.
-11. Stop the program.
-3. Flowchart (Mermaid Code)
-#chatgpt-mermaid-_r_m5_
+2. Read the number of hospital wards.
+3. Enter ward names, total beds, occupied beds, available staff, and required equipment.
+4. Store the details using nested lists.
+5. Calculate available beds in each ward.
+6. Check bed, staff, and equipment shortages.
+7. Assign priority based on resource shortages.
+8. Display ward-wise resource details.
+9. Display shortage reports and priority levels.
+10. Stop the program.
 
-4. Python Source Code
-n = int(input("Enter number of students: "))subjects = int(input("Enter number of subjects: "))for i in range(n):    name = input("\nEnter student name: ")    original = []    moderated = []    for j in range(subjects):        mark = float(input("Enter subject mark: "))        original.append(mark)        if mark < 40 and mark >= 35:            mark = min(mark + (40 - mark), 100)        moderated.append(mark)    original_total = sum(original)    moderated_total = sum(moderated)    if all(mark >= 40 for mark in moderated):        result = "PASS"    else:        result = "FAIL"    print("\n--- RESULT REPORT ---")    print("Student:", name)    print("Original Marks:", original)    print("Moderated Marks:", moderated)    print("Original Total:", original_total)    print("Moderated Total:", moderated_total)    print("Final Result:", result)
+## 2. Flowchart (Mermaid)
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[/Enter number of wards/]
+    B --> C[/Enter ward details/]
+    C --> D[Store details in nested lists]
+    D --> E[Calculate available beds]
+    E --> F{Check bed availability}
+    F -->|Low| G[Identify bed shortage]
+    F -->|Available| H[Check staff availability]
+    G --> H
+    H --> I{Check staff and equipment}
+    I -->|Shortage| J[Identify resource shortage]
+    I -->|Sufficient| K[Assign normal priority]
+    J --> L[Assign high priority]
+    K --> M[Display ward details]
+    L --> M
+    M --> N[Display shortage report]
+    N --> O([Stop])
+```
 
 
 
-5. Sample Input
-Enter number of students: 2
-Enter number of subjects: 3
 
-Enter student name: Ravi
-Enter subject mark: 35
-Enter subject mark: 75
-Enter subject mark: 80
+## 4. Sample Input
 
-Enter student name: Sita
-Enter subject mark: 60
-Enter subject mark: 70
-Enter subject mark: 85
+```
+Enter number of wards: 2
 
+Enter details for Ward 1
+Ward name: General
+Total beds: 20
+Occupied beds: 19
+Available staff: 2
+Available equipment: 3
+Required equipment: 5
 
-6. Sample Output
---- RESULT REPORT ---
-Student: Ravi
-Original Marks: [35.0, 75.0, 80.0]
-Moderated Marks: [40.0, 75.0, 80.0]
-Original Total: 190.0
-Moderated Total: 195.0
-Final Result: PASS
+Enter details for Ward 2
+Ward name: ICU
+Total beds: 10
+Occupied beds: 5
+Available staff: 6
+Available equipment: 8
+Required equipment: 5
+```
 
---- RESULT REPORT ---
-Student: Sita
-Original Marks: [60.0, 70.0, 85.0]
-Moderated Marks: [60.0, 70.0, 85.0]
-Original Total: 215.0
-Moderated Total: 215.0
-Final Result: PASS
+## 5. Sample Output
+
+```
+--- Hospital Resource Report ---
+
+Ward: General
+Available Beds: 1
+Available Staff: 2
+Shortages: Bed shortage, Staff shortage,
+Equipment shortage
+Priority: HIGH
+
+Ward: ICU
+Available Beds: 5
+Available Staff: 6
+Resource Status: Sufficient
+Priority: NORMAL
+
+Hospital Resource Analysis Completed
+```
