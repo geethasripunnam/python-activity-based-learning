@@ -1,49 +1,64 @@
-wards = []
 
-n = int(input("Enter number of wards: "))
 
-for i in range(n):
-    print("\nWard", i + 1)
+routes = int(input("Enter number of bus routes: "))
+days = int(input("Enter number of days: "))
 
-    name = input("Ward name: ")
-    total_beds = int(input("Total beds: "))
-    occupied = int(input("Occupied beds: "))
-    staff = int(input("Available staff: "))
-    equipment = int(input("Available equipment: "))
+data = []
 
-    available = total_beds - occupied
+for i in range(routes):
+    print("\nRoute", i + 1)
+    name = input("Enter route name: ")
+    capacity = int(input("Enter bus capacity: "))
 
-    shortages = []
+    total_passengers = 0
+    total_time = 0
+    total_fuel = 0
 
-    if available == 0:
-        shortages.append("No Beds Available")
+    for j in range(days):
+        print("Day", j + 1)
+        passengers = int(input("Enter passengers: "))
+        time = float(input("Enter journey time: "))
+        fuel = float(input("Enter fuel used: "))
 
-    if staff == 0:
-        shortages.append("Staff Shortage")
+        total_passengers += passengers
+        total_time += time
+        total_fuel += fuel
 
-    if equipment == 0:
-        shortages.append("Equipment Shortage")
+    avg_passengers = total_passengers / days
+    avg_time = total_time / days
 
-    if shortages:
-        priority = "HIGH"
+    if total_fuel > 0:
+        efficiency = total_passengers / total_fuel
     else:
-        priority = "NORMAL"
+        efficiency = 0
 
-    wards.append((name, available, staff,
-                  equipment, priority, shortages))
-
-wards.sort(key=lambda x: x[4] != "HIGH")
-
-print("\n--- HOSPITAL RESOURCE REPORT ---")
-
-for w in wards:
-    print("\nWard:", w[0])
-    print("Available Beds:", w[1])
-    print("Available Staff:", w[2])
-    print("Available Equipment:", w[3])
-    print("Priority:", w[4])
-
-    if w[5]:
-        print("Shortages:", ", ".join(w[5]))
+    if avg_passengers > capacity:
+        status = "Overloaded"
     else:
-        print("Shortages: None")
+        status = "Normal"
+
+    data.append((name, avg_passengers,
+                 avg_time, efficiency, status))
+
+print("\n--- BUS ROUTE PERFORMANCE REPORT ---")
+
+for r in data:
+    print("\nRoute:", r[0])
+    print("Average Passengers:", r[1])
+    print("Average Journey Time:", r[2])
+    print("Fuel Efficiency:", round(r[3], 2))
+    print("Status:", r[4])
+
+print("\n--- OPERATING EFFICIENCY RANKING ---")
+
+ranking = sorted(data, key=lambda x: x[3], reverse=True)
+
+for r in ranking:
+    print(r[0], "Efficiency:", round(r[3], 2))
+
+print("\n--- OVERLOADED ROUTES ---")
+
+for r in data:
+    if r[4] == "Overloaded":
+        print(r[0])
+
