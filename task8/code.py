@@ -1,38 +1,40 @@
-apartments = []
+orders = []
 
-n = int(input("Enter number of apartments: "))
+n = int(input("Enter number of orders: "))
 
 for i in range(n):
-    print("\nApartment", i + 1)
+    print("\nEnter Order", i + 1)
 
-    number = input("Apartment number: ")
-    units = float(input("Electricity units: "))
+    product = input("Product name: ")
+    stock = int(input("Available stock: "))
+    quantity = int(input("Order quantity: "))
+    priority = input("Priority (High/Medium/Low): ")
 
-    if units <= 100:
-        charge = units * 2
+    orders.append([product, stock, quantity, priority])
 
-    elif units <= 200:
-        charge = 200 + (units - 100) * 3
+orders.sort(key=lambda x: 
+    {"High": 1, "Medium": 2, "Low": 3}.get(x[3], 4))
 
+print("\n--- Warehouse Order Report ---")
+
+for order in orders:
+    product = order[0]
+    stock = order[1]
+    quantity = order[2]
+    priority = order[3]
+
+    fulfilled = min(stock, quantity)
+    outstanding = quantity - fulfilled
+
+    print("\nProduct:", product)
+    print("Priority:", priority)
+    print("Ordered Quantity:", quantity)
+    print("Fulfilled Quantity:", fulfilled)
+    print("Outstanding Quantity:", outstanding)
+
+    if outstanding == 0:
+        print("Status: Complete")
     else:
-        charge = 500 + (units - 200) * 5
+        print("Status: Partial")
 
-    fixed = 50
-    rebate = 20 if units < 100 else 0
-
-    bill = charge + fixed - rebate
-
-    apartments.append((number, units, bill))
-
-apartments.sort(key=lambda x: x[1], reverse=True)
-
-print("\n--- ELECTRICITY BILL REPORT ---")
-
-for rank, a in enumerate(apartments, 1):
-    print("\nRank:", rank)
-    print("Apartment:", a[0])
-    print("Units:", a[1])
-    print("Final Bill: Rs.", a[2])
-
-print("\nHighest Consumption Apartment:",
-      apartments[0][0] if apartments else "None")
+print("\nWarehouse Order Processing Completed")
