@@ -1,62 +1,97 @@
-1. Problem Statement
-Develop a Python program to calculate electricity bills for multiple apartments using progressive tariffs, fixed charges and rebates. Identify billing discrepancies and rank apartments according to electricity consumption.
-2. Algorithm
+# 79. Integrated Warehouse Order Prioritization
+
+Problem Statement:
+
+Develop a Python program to process product demand, available stock levels, order quantities, and priority categories in a warehouse. Determine whether each order can be fulfilled completely or partially, calculate outstanding quantities, and display orders according to their priority levels.
+
+## 1. Algorithm
+
 1. Start the program.
-2. Read the number of apartments.
-3. Enter apartment number and electricity units.
-4. Calculate charges using progressive tariff rates:
-   - First 100 units: ₹2 per unit.
-   - Next 100 units: ₹3 per unit.
-   - Above 200 units: ₹5 per unit.
-5. Add a fixed charge of ₹50.
-6. Apply a rebate of ₹20 if consumption is below 100 units.
-7. Calculate the final bill.
-8. Check whether the bill has any discrepancy.
-9. Sort apartments based on electricity consumption.
-10. Display apartment-wise bills and rankings.
-11. Stop the program.
-3. Flowchart (Mermaid Code)
-#chatgpt-mermaid-
+2. Read the number of orders.
+3. Enter product name, available stock, order quantity, and priority category.
+4. Store order details using a nested list.
+5. Compare available stock with order quantity.
+6. Calculate fulfilled quantity.
+7. Calculate outstanding quantity.
+8. Determine fulfilment status (Complete or Partial).
+9. Display order details according to priority.
+10. Stop the program.
+
+## 2. Flowchart (Mermaid)
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[/Enter number of orders/]
+    B --> C[/Enter product details and priority/]
+    C --> D[Store details in nested list]
+    D --> E[Compare stock with order quantity]
+    E --> F{Stock >= Order Quantity?}
+    F -->|Yes| G[Fulfilled = Order Quantity]
+    F -->|No| H[Fulfilled = Available Stock]
+    G --> I[Outstanding = Order - Fulfilled]
+    H --> I
+    I --> J{Outstanding == 0?}
+    J -->|Yes| K[Status = Complete]
+    J -->|No| L[Status = Partial]
+    K --> M[Display order details]
+    L --> M
+    M --> N[Display priority and outstanding quantity]
+    N --> O([Stop])
+```
 
 
+    
 
-4. Python Source Code
-apartments = []n = int(input("Enter number of apartments: "))for i in range(n):    print("\nApartment", i + 1)    number = input("Apartment number: ")    units = float(input("Electricity units: "))    if units <= 100:        charge = units * 2    elif units <= 200:        charge = 200 + (units - 100) * 3    else:        charge = 500 + (units - 200) * 5    fixed = 50    rebate = 20 if units < 100 else 0    bill = charge + fixed - rebate    apartments.append((number, units, bill))apartments.sort(key=lambda x: x[1], reverse=True)print("\n--- ELECTRICITY BILL REPORT ---")for rank, a in enumerate(apartments, 1):    print("\nRank:", rank)    print("Apartment:", a[0])    print("Units:", a[1])    print("Final Bill: Rs.", a[2])
+## 4. Sample Input
 
+```
+Enter number of orders: 3
 
+Enter Order 1
+Product name: Laptop
+Available stock: 20
+Order quantity: 15
+Priority (High/Medium/Low): High
 
-5. Sample Input
-Enter number of apartments: 3
+Enter Order 2
+Product name: Mouse
+Available stock: 10
+Order quantity: 25
+Priority (High/Medium/Low): Medium
 
-Apartment 1
-Apartment number: A101
-Electricity units: 80
+Enter Order 3
+Product name: Keyboard
+Available stock: 30
+Order quantity: 20
+Priority (High/Medium/Low): Low
+```
 
-Apartment 2
-Apartment number: A102
-Electricity units: 150
+## 5. Sample Output
 
-Apartment 3
-Apartment number: A103
-Electricity units: 250
+```
+--- Warehouse Order Report ---
 
+Product: Laptop
+Priority: High
+Ordered Quantity: 15
+Fulfilled Quantity: 15
+Outstanding Quantity: 0
+Status: Complete
 
-6. Sample Output
---- ELECTRICITY BILL REPORT ---
+Product: Mouse
+Priority: Medium
+Ordered Quantity: 25
+Fulfilled Quantity: 10
+Outstanding Quantity: 15
+Status: Partial
 
-Rank: 1
-Apartment: A103
-Units: 250.0
-Final Bill: Rs. 800.0
+Product: Keyboard
+Priority: Low
+Ordered Quantity: 20
+Fulfilled Quantity: 20
+Outstanding Quantity: 0
+Status: Complete
 
-Rank: 2
-Apartment: A102
-Units: 150.0
-Final Bill: Rs. 500.0
+Warehouse Order Processing Completed
+```
 
-Rank: 3
-Apartment: A101
-Units: 80.0
-Final Bill: Rs. 190.0
-
-Highest Consumption Apartment: A103
