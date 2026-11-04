@@ -1,33 +1,54 @@
-n = int(input("Enter number of students: "))
-subjects = int(input("Enter number of subjects: "))
+wards = []
+
+n = int(input("Enter number of wards: "))
 
 for i in range(n):
-    name = input("\nEnter student name: ")
+    print("\nEnter details for Ward", i + 1)
 
-    original = []
-    moderated = []
+    name = input("Ward name: ")
+    total_beds = int(input("Total beds: "))
+    occupied = int(input("Occupied beds: "))
+    staff = int(input("Available staff: "))
+    equipment = int(input("Available equipment: "))
+    required_equipment = int(input("Required equipment: "))
 
-    for j in range(subjects):
-        mark = float(input("Enter subject mark: "))
-        original.append(mark)
+    available = total_beds - occupied
 
-        if mark < 40 and mark >= 35:
-            mark = min(mark + (40 - mark), 100)
+    wards.append([
+        name, total_beds, occupied,
+        available, staff, equipment,
+        required_equipment
+    ])
 
-        moderated.append(mark)
+print("\n--- Hospital Resource Report ---")
 
-    original_total = sum(original)
-    moderated_total = sum(moderated)
+for ward in wards:
+    name = ward[0]
+    available = ward[3]
+    staff = ward[4]
+    equipment = ward[5]
+    required = ward[6]
 
-    if all(mark >= 40 for mark in moderated):
-        result = "PASS"
+    print("\nWard:", name)
+    print("Available Beds:", available)
+    print("Available Staff:", staff)
+
+    shortage = []
+
+    if available < 2:
+        shortage.append("Bed shortage")
+
+    if staff < 3:
+        shortage.append("Staff shortage")
+
+    if equipment < required:
+        shortage.append("Equipment shortage")
+
+    if shortage:
+        print("Shortages:", ", ".join(shortage))
+        print("Priority: HIGH")
     else:
-        result = "FAIL"
+        print("Resource Status: Sufficient")
+        print("Priority: NORMAL")
 
-    print("\n--- RESULT REPORT ---")
-    print("Student:", name)
-    print("Original Marks:", original)
-    print("Moderated Marks:", moderated)
-    print("Original Total:", original_total)
-    print("Moderated Total:", moderated_total)
-    print("Final Result:", result)
+print("\nHospital Resource Analysis Completed")
