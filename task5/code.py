@@ -1,39 +1,42 @@
-participants = []
-duplicates = []
+print("UNIVERSITY EXAMINATION RESULT MODERATION")
 
-n = int(input("Enter number of participants: "))
+n = int(input("Enter number of students: "))
+s = int(input("Enter number of subjects: "))
 
 for i in range(n):
-    print("\nParticipant", i + 1)
+    name = input("\nEnter student name: ")
+    original = []
+    moderated = []
 
-    pid = input("Enter participant ID: ")
-    fee = float(input("Enter registration fee: "))
+    for j in range(s):
+        mark = int(input("Enter subject marks: "))
+        original.append(mark)
 
-    if pid in [p[0] for p in participants]:
-        duplicates.append(pid)
+        if 35 <= mark < 40:
+            new_mark = mark + 5
+        else:
+            new_mark = mark
+
+        if new_mark > 100:
+            new_mark = 100
+
+        moderated.append(new_mark)
+
+    old_total = sum(original)
+    new_total = sum(moderated)
+
+    print("\nStudent Name:", name)
+    print("Original Marks:", original)
+    print("Moderated Marks:", moderated)
+    print("Original Total:", old_total)
+    print("Moderated Total:", new_total)
+
+    if all(mark >= 40 for mark in original):
+        print("Original Result: PASS")
     else:
-        participants.append((pid, fee))
+        print("Original Result: FAIL")
 
-sponsorship = float(input("\nEnter sponsorship amount: "))
-expenses = float(input("Enter total expenses: "))
-
-registration_income = sum(p[1] for p in participants)
-
-total_income = registration_income + sponsorship
-balance = total_income - expenses
-
-print("\n--- FESTIVAL FINANCIAL AUDIT ---")
-
-print("Valid Participants:", len(participants))
-print("Registration Income: Rs.", registration_income)
-print("Sponsorship: Rs.", sponsorship)
-print("Total Income: Rs.", total_income)
-print("Total Expenses: Rs.", expenses)
-print("Final Balance: Rs.", balance)
-
-print("Duplicate IDs:", duplicates)
-
-if balance >= 0:
-    print("Financial Status: Profit")
-else:
-    print("Financial Status: Loss")
+    if all(mark >= 40 for mark in moderated):
+        print("Moderated Result: PASS")
+    else:
+        print("Moderated Result: FAIL")
