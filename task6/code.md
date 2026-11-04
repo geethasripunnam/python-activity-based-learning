@@ -1,4 +1,4 @@
-# Smart Electricity Billing for Multiple Apartments – Python Program
+
 
 ## 1. Problem Statement
 
